@@ -45,7 +45,7 @@ public class TranslateTextServiceImpl implements TranslateTextService {
     @Override
     public Map<String,String>  getLanguagesMap() throws IOException, ParseException {
         JSONParser parser = new JSONParser();
-        Object obj = parser.parse(new FileReader("src\\main\\resources\\static\\supported languages.json"));
+        Object obj = parser.parse(new FileReader("src/main/resources/static/supported languages.json"));
         Map<String,String> lanuages = new HashMap<>();
         JSONObject jsonObject =  (JSONObject) obj;
 
