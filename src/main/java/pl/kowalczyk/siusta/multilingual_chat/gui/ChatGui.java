@@ -25,16 +25,16 @@ import pl.kowalczyk.siusta.multilingual_chat.service.TranslateTextService;
 import pl.kowalczyk.siusta.multilingual_chat.model.ChatMessage;
 import pl.kowalczyk.siusta.multilingual_chat.model.MessageList;
 import pl.kowalczyk.siusta.multilingual_chat.model.TranslatedText;
-import reactor.core.Disposable;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;
 
-import java.io.FileReader;
-import java.io.IOException;
+
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@StyleSheet("frontend://styles/styles.css")
 @Route("")
 @Push
 public class ChatGui extends VerticalLayout {
@@ -53,13 +53,14 @@ public class ChatGui extends VerticalLayout {
         this.translator = translator;
         this.chatMessages = chatMessages;
         this.messageDistributor = messageDistributor;
-
+        addClassName("main-view");
         setSizeFull();
+        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         this.languagesMap = translator.getLanguagesMap();
         Dialog credentialsDialog = addCredentialsDialog();
         credentialsDialog.open();
         add(credentialsDialog);
-
+        expand(messages);
 
         H1 header = new H1("Multilingual chat");
         headers.getElement().getThemeList().add("dark");
@@ -68,7 +69,7 @@ public class ChatGui extends VerticalLayout {
 
 
         add(headers, messages, addInputComponent());
-        System.out.println(System.getProperty("user.dir"));
+
     }
 
     private void addMessage(ChatMessage message) {
@@ -117,6 +118,7 @@ public class ChatGui extends VerticalLayout {
 
     private HorizontalLayout addInputComponent() {
         TextField input = new TextField();
+        setWidth("100%");
         Button send = new Button("Send");
         send.addClickListener(click -> {
             if (!(input.getValue().trim().isEmpty()) && input.getValue().trim().length() < 100) {
@@ -130,7 +132,7 @@ public class ChatGui extends VerticalLayout {
                 input.focus();
             }
         });
-
+        expand(input);
         Shortcut.add(input, Key.ENTER, send::click);
         return new HorizontalLayout(input, send);
     }
