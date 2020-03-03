@@ -75,13 +75,16 @@ public class ChatGui extends VerticalLayout {
     private void addMessage(ChatMessage message) {
         try {
             TranslatedText translatedText = translator.translate(message.getMessage(), this.language);
+            Div messageText= new Div();
             if (!translatedText.getSourceLanguage().equals(this.language)) {
+
                 Paragraph translatedParagraph = new Paragraph(message.getTime().format(DateTimeFormatter.ofPattern("h:mm")) + " - " + message.getFrom() + " : " + translatedText.getText());
-                messages.add(new Paragraph(message.getMessage() + " {" + translatedText.getSourceLanguage() + "}"), translatedParagraph);
+                messageText.add(new Paragraph(message.getMessage() + " {" + translatedText.getSourceLanguage() + "}"), translatedParagraph);
             } else {
-                messages.add(new Paragraph(message.getTime().format(DateTimeFormatter.ofPattern("h:mm")) + " - " + message.getFrom() + " : " + message.getMessage()));
+                messageText.add(new Paragraph(message.getTime().format(DateTimeFormatter.ofPattern("h:mm")) + " - " + message.getFrom() + " : " + message.getMessage()));
             }
 
+            messages.add(messageText);
         } catch (Exception e) {
             e.printStackTrace();
             messages.add(new Paragraph("Something went wrong"));

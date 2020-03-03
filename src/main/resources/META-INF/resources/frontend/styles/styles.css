@@ -20,6 +20,9 @@
     width: 100%;
 }
 
-.message-list p {
-    width: 100%;
+.message-list div {
+    width: 25%;
+    background: #445ff5;
+    font-size: 16px;
+    color: white;
 }
